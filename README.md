@@ -14,8 +14,6 @@ This command-line interface (CLI) allows you to interact with the Xian blockchai
 ### Install the required libraries:
 pip install xian-py typer questionary
 
-Choose a command:
-
 ## Available Commands:
 
 ### Wallet Commands:
