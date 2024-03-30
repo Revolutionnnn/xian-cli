@@ -16,7 +16,7 @@ pip install xian-py typer questionary
 
 Choose a command:
 
-Available commands:
+## Available commands:
 
 wallet: Manage wallets
 
