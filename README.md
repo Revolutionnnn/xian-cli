@@ -27,6 +27,25 @@ pip install xian-py typer questionary
 
 - **simple**: Sends Xian transactions within the currency contract.
 
+## Tasks to be Completed
+
+- [x] Create wallet
+- [x] Import wallet with private key
+- [x] Create CSV with wallets
+- [x] Verify balance of wallets in the CSV
+- [x] Verify balance with an address
+- [x] Delete wallets from the CSV
+- [x] Delete all information from the CSV
+- [x] Perform transaction from Xian CLI
+- [ ] Create advanced transaction to send any token (in progress)
+- [ ] Interact with contracts (in progress)
+- [ ] Load smart contract using CLI (in progress)
+- [ ] Create template to create tokens and NFTs using CLI (pending)
+- [ ] Create simple games with CLI (pending)
+- [ ] Create connection with node to verify information (pending)
+
+Many more ideas to be implemented
+
 ## Additional Notes
 
 - The CLI interacts with the Xian testnet by default.
