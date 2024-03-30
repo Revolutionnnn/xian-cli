@@ -11,37 +11,27 @@ This command-line interface (CLI) allows you to interact with the Xian blockchai
 
 ## Installation
 
-Install the required libraries:
+### Install the required libraries:
 pip install xian-py typer questionary
 
 Choose a command:
 
-## Available commands:
+## Available Commands:
 
-wallet: Manage wallets
+### Wallet Commands:
 
-send: Send Xian transactions
+- **create**: Creates a new wallet and saves its information in a CSV file.
+- **import**: Imports a private key and saves it as a wallet.
+- **balance**: Retrieves the balance of a wallet or a specific address.
+- **delete**: Deletes a single wallet or all wallets.
 
-Wallet Commands
+### Send Commands:
 
-create: Creates a new wallet and saves its information in a CSV file.
+- **simple**: Sends Xian transactions within the currency contract.
 
-import: Imports a private key and saves it as a wallet.
+## Additional Notes
 
-balance: Retrieves the balance of a wallet or a specific address.
-
-delete: Deletes a single wallet or all wallets.
-
-
-Send Commands
-
-simple: Sends Xian transactions within the currency contract.
-
-
-Additional Notes
-
-The CLI interacts with the Xian testnet by default.
-Wallet information is stored in a CSV file (ensure proper security for sensitive data).
-
+- The CLI interacts with the Xian testnet by default.
+- Wallet information is stored in a CSV file (ensure proper security for sensitive data).
 
 Feel free to contribute to this project!
