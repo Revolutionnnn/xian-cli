@@ -2,8 +2,9 @@ import csv
 import os
 from constants import WALLETS_FILE
 import typer
-import json
 
+from rich.progress import track
+import time
 
 def load_wallets():
     """Loads wallet data from the CSV file into a dictionary."""
@@ -61,7 +62,16 @@ def format_transaction_info(transaction_info):
     formatted_info = ""
     tx_result = transaction_info.get("result", {})
     stamps_used = tx_result.get("tx_result", {}).get("data", "").get("stamps_used", "")
+    result = tx_result.get("tx_result", {}).get("data", "").get("result", "")
     
     formatted_info += f"Stamps Used: {stamps_used}\n"
+    formatted_info += f"Result: {result}\n"
     
     return formatted_info
+
+def fake_progress():
+    total = 0
+    for _ in track(range(100), description="Processing..."):
+        time.sleep(0.01)
+        total += 1
+    typer.echo(f"Processed {total}%.")

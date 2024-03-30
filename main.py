@@ -5,21 +5,24 @@ from xian_py.xian import Xian
 from xian_py.transactions import get_nonce, create_tx, broadcast_tx
 
 # LOCAL FILES
-from utils import delete_all_wallets, delete_wallet_by_name, format_transaction_info, validate_wallet, load_wallets, save_wallet_to_csv
+from utils import delete_all_wallets, delete_wallet_by_name, fake_progress, format_transaction_info, validate_wallet, load_wallets, save_wallet_to_csv
 from constants import TESNET_ID, TESNET_CHAIN
 
 #CLI
 import typer
 import questionary
+from rich.progress import track
 
 
 
 app = typer.Typer()
 wallet_app = typer.Typer()
 send_app = typer.Typer()
+contract_app = typer.Typer()
 
 app.add_typer(wallet_app, name="wallet")
 app.add_typer(send_app, name="send")
+app.add_typer(contract_app, name="contract")
 
 @wallet_app.command("create")
 def create ():
@@ -122,6 +125,71 @@ def simple(amount: int, to: str):
     typer.echo(f'tx_hash: {send["tx_hash"]}')
     typer.echo(f"{formatted_transaction_info}")
 
+@send_app.command()
+def advance(amount: int, contract: str, to: str, stamps: int = 500):
+    wallets = load_wallets()
+    selected_wallet = questionary.select("What wallet do you want to use?", choices=list(wallets.keys())).ask()
+    wallet_priv = wallets[selected_wallet]["private_key"]
+    wallet = Wallet(wallet_priv)
+    
+    xian = Xian(TESNET_CHAIN, TESNET_ID, wallet)
+    send = xian.send_tx(
+        contract=contract,
+        function='transfer',
+        kwargs={
+            'to': to,
+            'amount': amount,
+        },
+        stamps=stamps,
+    )
+    formatted_transaction_info = format_transaction_info(xian.get_tx(send["tx_hash"]))
+    typer.echo(f'success: {send["success"]}')
+    typer.echo(f'tx_hash: {send["tx_hash"]}')
+    typer.echo(f"{formatted_transaction_info}")
+
+@contract_app.command()
+def approve(contract: str):
+    wallets = load_wallets()
+    selected_wallet = questionary.select("What wallet do you want to use?", choices=list(wallets.keys())).ask()
+    wallet_priv = wallets[selected_wallet]["private_key"]
+    wallet = Wallet(wallet_priv)
+    xian = Xian(TESNET_CHAIN, TESNET_ID, wallet)
+    approve = xian.approve(contract)
+
+    typer.echo(f'success: {approve["success"]}')
+    typer.echo(f'tx_hash: {approve["tx_hash"]}')
+
+@contract_app.command()
+def get_approve(contract: str):
+    wallets = load_wallets()
+    selected_wallet = questionary.select("What wallet do you want to use?", choices=list(wallets.keys())).ask()
+    wallet_priv = wallets[selected_wallet]["private_key"]
+    wallet = Wallet(wallet_priv)
+    xian = Xian(TESNET_CHAIN, TESNET_ID, wallet)
+    approved = xian.get_approved_amount(contract)
+
+    typer.echo(f'approved: {approved}')
+
+@contract_app.command()
+def submit(contract_name: str):
+    wallets = load_wallets()
+    selected_wallet = questionary.select("What wallet do you want to use?", choices=list(wallets.keys())).ask()
+    path = questionary.path("What's the path to the contract file?").ask()
+    code = ""
+    
+    with open(path, "r") as file:
+        code = file.read()
+
+    wallet_priv = wallets[selected_wallet]["private_key"]
+    wallet = Wallet(wallet_priv)
+    xian = Xian(TESNET_CHAIN, TESNET_ID, wallet)
+
+    submit = xian.submit_contract(contract_name, code)
+    formatted_transaction_info = format_transaction_info(xian.get_tx(submit["tx_hash"]))
+    fake_progress()
+    typer.echo(f'success: {submit["success"]}')
+    typer.echo(f'tx_hash: {submit["tx_hash"]}')
+    typer.echo(f"{formatted_transaction_info}")
 
 if __name__ == "__main__":
     app()
