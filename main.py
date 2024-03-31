@@ -8,7 +8,6 @@ from utils import delete_all_wallets, delete_wallet_by_name, fake_progress, form
 from constants import TESNET_ID, TESNET_CHAIN
 
 #CLI
-import ast
 import typer
 import questionary
 
