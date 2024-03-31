@@ -38,7 +38,7 @@ pip install xian-py typer questionary
 - [x] Delete all information from the CSV
 - [x] Perform transaction from Xian CLI
 - [x] Create advanced transaction to send any token (in progress)
-- [ ] Interact with contracts (in progress)
+- [x] Interact with contracts (in progress)
 - [x] Load smart contract using CLI
 - [ ] Create template to create tokens and NFTs using CLI (pending)
 - [ ] Create simple games with CLI (pending)
