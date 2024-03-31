@@ -1,10 +1,19 @@
+# UTILS
 import csv
 import os
-from constants import WALLETS_FILE
 import typer
-
 from rich.progress import track
 import time
+import questionary
+
+# BLOCKCHAIN
+from xian_py.wallet import Wallet
+from xian_py.xian import Xian
+
+# CONSTANTS
+from constants import WALLETS_FILE, TESNET_ID, TESNET_CHAIN
+
+
 
 def load_wallets():
     """Loads wallet data from the CSV file into a dictionary."""
@@ -75,3 +84,10 @@ def fake_progress():
         time.sleep(0.01)
         total += 1
     typer.echo(f"Processed {total}%.")
+
+def instance_xian(wallets):
+    selected_wallet = questionary.select("What wallet do you want to use?", choices=list(wallets.keys())).ask()
+    wallet_priv = wallets[selected_wallet]["private_key"]
+    wallet = Wallet(wallet_priv)
+    xian = Xian(TESNET_CHAIN, TESNET_ID, wallet)
+    return xian
