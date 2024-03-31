@@ -8,6 +8,7 @@ from utils import delete_all_wallets, delete_wallet_by_name, fake_progress, form
 from constants import TESNET_ID, TESNET_CHAIN
 
 #CLI
+import ast
 import typer
 import questionary
 
@@ -21,6 +22,7 @@ contract_app = typer.Typer()
 app.add_typer(wallet_app, name="wallet")
 app.add_typer(send_app, name="send")
 app.add_typer(contract_app, name="contract")
+
 
 @wallet_app.command("create")
 def create ():
@@ -102,6 +104,7 @@ def delete (all: bool = False):
         if response:
             delete_wallet_by_name(selected_wallet)
 
+
 @send_app.command()
 def simple(amount: int, to: str):
     wallets = load_wallets()
@@ -120,8 +123,9 @@ def simple(amount: int, to: str):
     typer.echo(f'tx_hash: {send["tx_hash"]}')
     typer.echo(f"{formatted_transaction_info}")
 
+
 @send_app.command()
-def advance(amount: int, contract: str, to: str, stamps: int = 500):
+def token(amount: int, contract: str, to: str, stamps: int = 500):
     wallets = load_wallets()
     xian = instance_xian(wallets)
 
@@ -139,6 +143,30 @@ def advance(amount: int, contract: str, to: str, stamps: int = 500):
     typer.echo(f'tx_hash: {send["tx_hash"]}')
     typer.echo(f"{formatted_transaction_info}")
 
+
+@send_app.command()
+def advance(contract: str, function: str, stamps: int = 500):
+    wallets = load_wallets()
+    xian = instance_xian(wallets)
+    kwargs = typer.prompt("What's your kwargs?")
+
+    try:
+        kwargs = eval(kwargs)
+    except Exception:
+        return typer.echo("Invalid kwargs format. Please provide a valid dictionary.")
+
+    send = xian.send_tx(
+        contract=contract,
+        function=function,
+        kwargs=kwargs,
+        stamps=stamps,
+    )
+    formatted_transaction_info = format_transaction_info(xian.get_tx(send["tx_hash"]))
+    typer.echo(f'success: {send["success"]}')
+    typer.echo(f'tx_hash: {send["tx_hash"]}')
+    typer.echo(f"{formatted_transaction_info}")
+
+
 @contract_app.command()
 def approve(contract: str):
     wallets = load_wallets()
@@ -148,6 +176,7 @@ def approve(contract: str):
     typer.echo(f'success: {approve["success"]}')
     typer.echo(f'tx_hash: {approve["tx_hash"]}')
 
+
 @contract_app.command()
 def get_approve(contract: str):
     wallets = load_wallets()
@@ -155,6 +184,7 @@ def get_approve(contract: str):
     approved = xian.get_approved_amount(contract)
 
     typer.echo(f'approved: {approved}')
+
 
 @contract_app.command()
 def submit(contract_name: str):
@@ -172,6 +202,7 @@ def submit(contract_name: str):
     typer.echo(f'success: {submit["success"]}')
     typer.echo(f'tx_hash: {submit["tx_hash"]}')
     typer.echo(f"{formatted_transaction_info}")
+
 
 if __name__ == "__main__":
     app()
