@@ -2,6 +2,11 @@
 
 This command-line interface (CLI) allows you to interact with the Xian blockchain and manage wallet information.
 
+### Run xian-cli:
+```bash
+pipx install xian-cli
+```
+
 ## Requirements
 
 - Python 3.9 or newer
@@ -10,11 +15,6 @@ This command-line interface (CLI) allows you to interact with the Xian blockchai
 - Questionary library (`questionary`)
 
 ## Installation
-
-### Install with pipx:
-```bash
-pipx install xian-cli
-```
 
 ### Install the required libraries:
 ```bash
