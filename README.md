@@ -44,8 +44,34 @@ wallet delete --all
 ```
 
 ### Send Commands:
+- **simple**: Send xians.
+```bash
+send simple <amount> <address>
+```
+- **token**: Send tokens on xian blockchain.
+```bash
+send token <amount> <contract> <address> <stamp: optional>
+```
+- **advance**: Made a advance trasaction.
+```bash
+send token <contract> <function> <stamp: optional>
+Then the kwargs will be required from the transaction.
+```
 
-- **simple**: Sends Xian transactions within the currency contract.
+### Contract Commands:
+- **approve**: Aprove the contract.
+```bash
+contract aprove <contract>
+```
+- **get_approve**: Get aprove the contract.
+```bash
+contract get-aprove <contract>
+```
+- **submit**: Submit smart contract.
+```bash
+contract submit <contract_name>
+Then it will be necessary to place the file path where the smart contract is located.
+```
 
 ## Tasks to be Completed
 
