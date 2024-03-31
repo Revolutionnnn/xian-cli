@@ -4,7 +4,7 @@ This command-line interface (CLI) allows you to interact with the Xian blockchai
 
 ## Requirements
 
-- Python 3.7 or newer
+- Python 3.9 or newer
 - Xian Python library (`xian-py`)
 - Typer library (`typer`)
 - Questionary library (`questionary`)
@@ -12,16 +12,36 @@ This command-line interface (CLI) allows you to interact with the Xian blockchai
 ## Installation
 
 ### Install the required libraries:
+```bash
 pip install xian-py typer questionary
+```
 
 ## Available Commands:
 
 ### Wallet Commands:
 
 - **create**: Creates a new wallet and saves its information in a CSV file.
+```bash
+wallet create
+```
 - **import**: Imports a private key and saves it as a wallet.
+```bash
+wallet create <private key>
+```
 - **balance**: Retrieves the balance of a wallet or a specific address.
+```bash
+wallet balance
+```
+```bash
+wallet balance --address <address>
+```
 - **delete**: Deletes a single wallet or all wallets.
+```bash
+wallet delete
+```
+```bash
+wallet delete --all
+```
 
 ### Send Commands:
 
