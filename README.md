@@ -11,6 +11,11 @@ This command-line interface (CLI) allows you to interact with the Xian blockchai
 
 ## Installation
 
+### Install with pipx:
+```bash
+pipx install xian-cli
+```
+
 ### Install the required libraries:
 ```bash
 pip install xian-py typer questionary
