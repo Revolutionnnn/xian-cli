@@ -2,7 +2,7 @@
 
 This command-line interface (CLI) allows you to interact with the Xian blockchain and manage wallet information.
 
-### Run xian-cli:
+## Run xian-cli:
 ```bash
 pipx install xian-cli
 ```
